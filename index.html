@@ -1069,7 +1069,7 @@ body, #canvas-container{
                 <div class="mode-icon" id="mode-icon">🌐</div>
                 <div class="mode-text">
                     <div class="mode-name" id="mode-name">球体模式</div>
-                    <div class="mode-gesture" id="mode-gesture">张开手掌</div>
+                    <div class="mode-gesture" id="mode-gesture">握拳激活</div>
                 </div>
             </div>
         </div>
@@ -1128,11 +1128,11 @@ body, #canvas-container{
         <h3>🎮 手势控制</h3>
         <div class="instruction-item">
             <div class="instruction-icon">✊</div>
-            <span>握拳 → 树形模式</span>
+            <span>握拳 → 球体散落</span>
         </div>
         <div class="instruction-item">
             <div class="instruction-icon">🖐️</div>
-            <span>张开 → 球体散落</span>
+            <span>张开 → 树形模式</span>
         </div>
         <div class="instruction-item">
             <div class="instruction-icon">✌️</div>
@@ -2800,7 +2800,7 @@ body, #canvas-container{
         function updateModeUI(mode) {
             const icons = { tree: '🎄', sphere: '🌐', photo: '📷' };
             const names = { tree: '树形模式', sphere: '球体模式', photo: '照片模式' };
-            const gestures = { tree: '握拳激活', sphere: '张开手掌', photo: '✌️剪刀手' };
+            const gestures = { tree: '张开手掌', sphere: '握拳激活', photo: '✌️剪刀手' };
 
             document.getElementById('mode-icon').textContent = icons[mode];
             document.getElementById('mode-name').textContent = names[mode];
@@ -3338,16 +3338,16 @@ body, #canvas-container{
                     gestureDebounce = 45;
                     
                     const gestureNames = {
-                        fist: '✊ 握拳 → 树形',
-                        open: '🖐️ 张开 → 球体',
+                        fist: '✊ 握拳 → 球体',
+                        open: '🖐️ 张开 → 树形',
                         peace: '✌️ 剪刀 → 照片'
                     };
                     
                     document.getElementById('gesture-display').textContent = gestureNames[gesture] || gesture;
                     
                     switch (gesture) {
-                        case 'fist': setMode('tree'); break;
-                        case 'open': setMode('sphere'); break;
+                        case 'fist': setMode('sphere'); break;
+                        case 'open': setMode('tree'); break;
                         case 'peace': setMode('photo'); break;
                     }
                 }
