@@ -216,127 +216,131 @@
             margin-top: 2px;
         }
         
-        /* Photo Upload */
-        .photo-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 8px;
-        }
         
-        .photo-slot {
-            aspect-ratio: 1;
-            border: 2px dashed var(--primary);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            overflow: hidden;
-            position: relative;
-            background: rgba(255,255,255,0.03);
-        }
-        
-        .photo-slot:hover {
-            border-color: var(--accent);
-            background: rgba(255,255,255,0.08);
-            transform: scale(1.05);
-        }
-        
-        .photo-slot img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .photo-slot .add-icon {
-            font-size: 1.2rem;
-            color: var(--primary);
-        }
-        
-        .photo-slot .remove-btn {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            width: 18px;
-            height: 18px;
-            background: #ff4444;
-            border: none;
-            border-radius: 50%;
-            color: white;
-            font-size: 10px;
-            cursor: pointer;
-            display: none;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .photo-slot:hover .remove-btn {
-            display: flex;
-        }
-        
-        .photo-done-btn {
-            width: 100%;
-            margin-top: 10px;
-            padding: 10px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border: none;
-            border-radius: 10px;
-            color: var(--text);
-            font-size: 0.85rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px var(--glow);
-        }
-        
-        .photo-done-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px var(--glow);
-        }
-        
-        .photo-buttons {
-            display: flex;
-            gap: 8px;
-            margin-top: 10px;
-        }
-        
-        .photo-buttons button {
-            flex: 1;
-            padding: 10px;
-            border: none;
-            border-radius: 10px;
-            color: var(--text);
-            font-size: 0.8rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .photo-done-btn {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            box-shadow: 0 4px 15px var(--glow);
-        }
-        
-        .photo-back-btn {
-            background: linear-gradient(135deg, #228b22, #006400);
-            box-shadow: 0 4px 15px rgba(34, 139, 34, 0.3);
-        }
-        
-        .photo-buttons button:hover {
-            transform: translateY(-2px);
-            filter: brightness(1.1);
-        }
-        
-        .photo-count {
-            text-align: center;
-            font-size: 0.7rem;
-            color: var(--primary);
-            margin-top: 8px;
-            opacity: 0.8;
-        }
-        
-        /* Camera Window */
+/* Photo Upload (compact by default) */
+.photo-title{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+}
+.photo-toggle{
+    padding:6px 10px;
+    border-radius:10px;
+    border:1px solid rgba(255,255,255,0.18);
+    background: rgba(255,255,255,0.06);
+    color: var(--text);
+    font-size: 0.72rem;
+    cursor:pointer;
+    transition: all 0.2s ease;
+}
+.photo-toggle:hover{ filter: brightness(1.1); }
+
+.photo-grid {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+}
+.photo-grid::-webkit-scrollbar{ display:none; }
+
+.photo-slot {
+    width: 44px;
+    height: 44px;
+    flex: 0 0 44px;
+    border: 2px dashed var(--primary);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+    overflow: hidden;
+    position: relative;
+    background: rgba(255,255,255,0.03);
+}
+
+/* Expanded manage mode */
+.photo-section.expanded .photo-slot{
+    width: 64px;
+    height: 64px;
+    flex-basis: 64px;
+}
+
+.photo-slot:hover {
+    border-color: var(--accent);
+    background: rgba(255,255,255,0.08);
+    transform: scale(1.03);
+}
+
+.photo-slot img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.photo-slot .add-icon {
+    font-size: 1.1rem;
+    color: var(--primary);
+}
+
+.photo-slot .remove-btn {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    width: 18px;
+    height: 18px;
+    background: #ff4444;
+    border: none;
+    border-radius: 50%;
+    color: white;
+    font-size: 10px;
+    cursor: pointer;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+/* On touch devices, hover does not exist. Show remove button only in expanded manage mode. */
+.photo-slot:hover .remove-btn { display:flex; }
+.photo-section.expanded .remove-btn { display:flex; }
+
+.photo-buttons {
+    display: none;
+    gap: 8px;
+    margin-top: 8px;
+}
+.photo-section.expanded .photo-buttons { display:flex; }
+
+.photo-buttons button {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    color: var(--text);
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.photo-done-btn {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    box-shadow: 0 4px 15px var(--glow);
+}
+
+.photo-back-btn {
+    background: linear-gradient(135deg, #228b22, #006400);
+    box-shadow: 0 4px 15px rgba(34, 139, 34, 0.3);
+}
+
+.photo-buttons button:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
+}
+/* Camera Window */
         .camera-container {
             position: fixed;
             bottom: 20px;
@@ -373,7 +377,7 @@
         
         @keyframes pulse {
             0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
+            50% { opacity: 0.45; }
         }
         
         #camera-feed {
@@ -464,7 +468,7 @@
             gap: 12px;
             margin-bottom: 10px;
             font-size: 0.8rem;
-            opacity: 0.95;
+            opacity: 0.92;
             padding: 8px;
             border-radius: 10px;
             background: rgba(255,255,255,0.03);
@@ -1079,21 +1083,24 @@ body, #canvas-container{
             </div>
         </div>
         
-        <div class="control-section">
-            <div class="section-title">📸 上传照片 (5张) / Photos</div>
-            <div class="photo-grid" id="photo-grid">
-                <div class="photo-slot" data-index="0"><span class="add-icon">+</span></div>
-                <div class="photo-slot" data-index="1"><span class="add-icon">+</span></div>
-                <div class="photo-slot" data-index="2"><span class="add-icon">+</span></div>
-                <div class="photo-slot" data-index="3"><span class="add-icon">+</span></div>
-                <div class="photo-slot" data-index="4"><span class="add-icon">+</span></div>
-            </div>
-            <div class="photo-buttons">
-                <button class="photo-done-btn" id="photo-done-btn" style="display:none;">📷 查看照片 / View</button>
-                <button class="photo-back-btn" id="photo-back-btn" style="display:none;">🎄 返回圣诞树 / Back</button>
-            </div>
-            <input type="file" id="photo-input" accept="image/*">
-        </div>
+        <div class="control-section photo-section" id="photo-section">
+    <div class="section-title photo-title">
+        <span>📸 照片 (5)</span>
+        <button class="photo-toggle" id="photo-toggle" type="button">展开</button>
+    </div>
+    <div class="photo-grid" id="photo-grid">
+        <div class="photo-slot" data-index="0"><span class="add-icon">+</span></div>
+        <div class="photo-slot" data-index="1"><span class="add-icon">+</span></div>
+        <div class="photo-slot" data-index="2"><span class="add-icon">+</span></div>
+        <div class="photo-slot" data-index="3"><span class="add-icon">+</span></div>
+        <div class="photo-slot" data-index="4"><span class="add-icon">+</span></div>
+    </div>
+    <div class="photo-buttons">
+        <button class="photo-done-btn" id="photo-done-btn" style="display:none;">📷 查看照片 / View</button>
+        <button class="photo-back-btn" id="photo-back-btn" style="display:none;">🎄 返回圣诞树 / Back</button>
+    </div>
+    <input type="file" id="photo-input" accept="image/*">
+</div>
     </div>
 
     <!-- Camera Window -->
@@ -1130,6 +1137,10 @@ body, #canvas-container{
         <div class="instruction-item">
             <div class="instruction-icon">✌️</div>
             <span>剪刀手 → 照片展示</span>
+        </div>
+        <div class="instruction-item">
+            <div class="instruction-icon">👋</div>
+            <span>挥手 → 切换颜色</span>
         </div>
     </div>
 
@@ -1198,19 +1209,19 @@ body, #canvas-container{
 
         // ============== Configuration ==============
         const CONFIG = {
-            particleCount: 52000,
-            transitionSpeed: 0.02,
+            particleCount: 320000,
+            transitionSpeed: 0.008,
             themes: {
                 default: {
-                    treeColor: 0x228b22,      // Forest green
-                    treeColorAlt: 0x006400,   // Dark green
+                    treeColor: 0x2d8f2d,      // Richer forest green
+                    treeColorAlt: 0x1a6b1a,   // Deep green
                     lightColors: [0xff0000, 0xffd700, 0x00ff00, 0x4169e1, 0xff69b4, 0xffffff],
                     starColor: 0xffd700,
                     ambient: 0x0a1628,
                     directional: 0xffffff,
                     bgColor: 0x0a1428,
-                    bloomStrength: 0.8,
-                    bloomRadius: 0.2
+                    bloomStrength: 0.4,
+                    bloomRadius: 0.12
                 },
                 ice: {
                     treeColor: 0x87ceeb,
@@ -1220,8 +1231,8 @@ body, #canvas-container{
                     ambient: 0x0a1a2e,
                     directional: 0x87ceeb,
                     bgColor: 0x051020,
-                    bloomStrength: 1.0,
-                    bloomRadius: 0.3
+                    bloomStrength: 0.5,
+                    bloomRadius: 0.15
                 },
                 neon: {
                     treeColor: 0x00ff88,
@@ -1231,15 +1242,15 @@ body, #canvas-container{
                     ambient: 0x0d0221,
                     directional: 0x9b59b6,
                     bgColor: 0x05010f,
-                    bloomStrength: 1.5,
-                    bloomRadius: 0.4
+                    bloomStrength: 0.6,
+                    bloomRadius: 0.2
                 }
             }
         };
 
         const IS_MOBILE = (window.innerWidth <= 768) || /Mobi|Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
         // Particle budget. Keep mobile safe.
-        CONFIG.particleCount = IS_MOBILE ? 28000 : CONFIG.particleCount;
+        CONFIG.particleCount = IS_MOBILE ? 160000 : CONFIG.particleCount;
 
         // ============== State ==============
         let currentTheme = 'default';
@@ -1271,7 +1282,7 @@ body, #canvas-container{
         controls.dampingFactor = 0.05;
         controls.minDistance = 6;
         controls.maxDistance = 30;
-        controls.autoRotate = true;
+        controls.autoRotate = false; // object rotation is handled in animate()
         controls.autoRotateSpeed = 0.4;
         controls.target.set(0, 2.5, 0); // Focus on middle of tree
 
@@ -1299,6 +1310,24 @@ body, #canvas-container{
         const pointLight = new THREE.PointLight(0xffffff, 1, 20);
         pointLight.position.set(0, 8, 0);
         scene.add(pointLight);
+        
+        // Neutral warm white light for gifts - stays constant across themes
+        const giftLight = new THREE.PointLight(0xfffaf0, 0.8, 15);
+        giftLight.position.set(0, 0, 5);
+        scene.add(giftLight);
+        
+        const giftLight2 = new THREE.PointLight(0xfff8f0, 0.5, 12);
+        giftLight2.position.set(-4, 1, 3);
+        scene.add(giftLight2);
+        
+        const giftLight3 = new THREE.PointLight(0xfff8f0, 0.5, 12);
+        giftLight3.position.set(4, 1, 3);
+        scene.add(giftLight3);
+
+        // Main group that rotates as a whole (tree/sphere/photo)
+        const shapeGroup = new THREE.Group();
+        shapeGroup.name = 'shapeGroup';
+        scene.add(shapeGroup);
 
         // ============== Particle System ==============
         const particleGeometry = new THREE.BufferGeometry();
@@ -1307,6 +1336,7 @@ body, #canvas-container{
         const positions = new Float32Array(particleCount * 3);
         const colors = new Float32Array(particleCount * 3);
         const sizes = new Float32Array(particleCount);
+        const lightMask = new Float32Array(particleCount);
         const treePositions = new Float32Array(particleCount * 3);
         const spherePositions = new Float32Array(particleCount * 3);
         const photoPositions = new Float32Array(particleCount * 3);
@@ -1321,35 +1351,49 @@ body, #canvas-container{
             const treeColorAlt = new THREE.Color(themeConfig.treeColorAlt);
             const lightColors = themeConfig.lightColors.map(c => new THREE.Color(c));
 
+            // Tree geometry tuning
+            const treeHeight = 9.0;
+            const baseY = -1.5;
+            const maxRadius = 3.65;
+            const layerCount = 10;
+            const spiralTurns = 6.8;
+
             for (let i = 0; i < particleCount; i++) {
                 const i3 = i * 3;
 
-                // Improved tree shape - layered cone with natural variation
-                const treeHeight = 9;
-                const treeY = Math.pow(Math.random(), 0.7) * treeHeight - 1.5; // More particles at bottom
-                const normalizedY = (treeY + 1.5) / treeHeight;
-                
-                // Create layered branch effect
-                const layerCount = 8;
-                const layerIndex = Math.floor(normalizedY * layerCount);
-                const layerProgress = (normalizedY * layerCount) % 1;
-                
-                // Base radius decreases with height, with slight bulges for branches
-                const baseRadius = (1 - normalizedY) * 3.5 + 0.15;
-                const branchBulge = Math.sin(layerProgress * Math.PI) * 0.3 * (1 - normalizedY);
-                const treeRadius = baseRadius + branchBulge;
-                
-                const treeAngle = Math.random() * Math.PI * 2;
-                
-                // More variation at branch tips
-                const radiusVariation = (Math.random() - 0.5) * 0.5 * (1 + branchBulge);
-                const depthVariation = Math.random() * 0.3; // Some particles inside the tree
-                
-                const finalRadius = (treeRadius + radiusVariation) * (1 - depthVariation * 0.5);
-                
-                treePositions[i3] = Math.cos(treeAngle) * finalRadius;
+                // Y distribution: denser at bottom, sparse near tip
+                const u = Math.random();
+                const treeY = Math.pow(u, 0.55) * treeHeight + baseY;
+                const normalizedY = (treeY - baseY) / treeHeight;
+
+                // Layered branches: small outward bulges per tier
+                const layerPos = normalizedY * layerCount;
+                const layerIndex = Math.floor(layerPos);
+                const layerT = layerPos - layerIndex;
+                const layerBulge = Math.sin(layerT * Math.PI) * 0.30 * (1.0 - normalizedY);
+
+                // Base radius decreases with height
+                const baseRadius = (1.0 - normalizedY) * maxRadius + 0.18;
+                const treeRadius = baseRadius + layerBulge;
+
+                // Lights bias: more around mid section, fewer at very top and very bottom
+                const midBias = Math.max(0.0, 1.0 - Math.abs(normalizedY - 0.55) / 0.55);
+                const pLight = 0.015 + 0.025 * midBias; // ~1.5% to ~4% - even fewer lights, more green
+                const isLight = Math.random() < pLight;
+
+                // Foliage can be inside, lights should be on/near the surface
+                const depthVariation = isLight ? 0.0 : Math.random() * 0.38;
+
+                // Angle: foliage random; lights follow a soft spiral so they look "wrapped"
+                const baseAngle = Math.random() * Math.PI * 2.0;
+                const angle = isLight ? (baseAngle + normalizedY * spiralTurns * Math.PI * 2.0) : baseAngle;
+
+                const radialJitter = (Math.random() - 0.5) * (isLight ? 0.14 : 0.55) * (1.0 - normalizedY);
+                const finalRadius = (treeRadius + radialJitter) * (1.0 - depthVariation * 0.55) * (isLight ? 1.03 : 1.0);
+
+                treePositions[i3] = Math.cos(angle) * finalRadius;
                 treePositions[i3 + 1] = treeY;
-                treePositions[i3 + 2] = Math.sin(treeAngle) * finalRadius;
+                treePositions[i3 + 2] = Math.sin(angle) * finalRadius;
 
                 // Sphere shape - expanding burst
                 const sphereRadius = 4.5;
@@ -1383,28 +1427,43 @@ body, #canvas-container{
                 positions[i3 + 1] = treePositions[i3 + 1];
                 positions[i3 + 2] = treePositions[i3 + 2];
 
-                // Colors - mostly green tree with scattered colorful lights
-                const isLight = Math.random() < 0.085; // 5% are colorful lights
                 
+
+                // Colors - foliage gradient + wrapped lights
+                lightMask[i] = isLight ? 1.0 : 0.0;
+
                 if (isLight) {
-                    // Colorful Christmas light
                     const lightColor = lightColors[Math.floor(Math.random() * lightColors.length)];
-                    colors[i3] = lightColor.r;
-                    colors[i3 + 1] = lightColor.g;
-                    colors[i3 + 2] = lightColor.b;
-                    sizes[i] = Math.random() * 0.14 + 0.08; // Lights
+                    const heightBoost = 0.9 + 0.25 * (1.0 - Math.abs(normalizedY - 0.55) / 0.55);
+                    colors[i3] = lightColor.r * heightBoost;
+                    colors[i3 + 1] = lightColor.g * heightBoost;
+                    colors[i3 + 2] = lightColor.b * heightBoost;
+                    sizes[i] = Math.random() * 0.10 + 0.06; // smaller lights for higher density
                 } else {
-                    // Green tree particle with depth-based shading
-                    const mixFactor = Math.random();
+                    // Green foliage with subtle vertical gradient and depth shading
+                    const mixFactor = 0.1 + 0.35 * Math.random(); // More bias toward primary green
                     const color = treeColor.clone().lerp(treeColorAlt, mixFactor);
-                    // Darker particles inside, brighter at edges
-                    const depthShade = 0.6 + (1 - depthVariation) * 0.5;
-                    const heightShade = 0.8 + normalizedY * 0.3; // Slightly brighter at top
-                    const brightness = depthShade * heightShade * (0.8 + Math.random() * 0.4);
-                    colors[i3] = color.r * brightness;
-                    colors[i3 + 1] = color.g * brightness;
-                    colors[i3 + 2] = color.b * brightness;
-                    sizes[i] = Math.random() * 0.06 + 0.02; // Dense tree particles
+
+                    const depthShade = 0.65 + (1.0 - depthVariation) * 0.45;
+                    // Brighter overall but still darker at top
+                    const heightShade = 0.95 - normalizedY * 0.4;
+                    const randomShade = 0.85 + Math.random() * 0.2;
+
+                    // Strongly dim the top 40% of tree
+                    const tipT = Math.min(Math.max((normalizedY - 0.6) / 0.4, 0), 1);
+                    const tipSmooth = tipT * tipT * (3 - 2 * tipT); // smoothstep
+                    const tipDamp = 1.0 - 0.4 * tipSmooth;
+
+                    const brightness = depthShade * heightShade * randomShade * tipDamp;
+
+                    // Boost green channel for richer color
+                    colors[i3] = color.r * brightness * 0.85;
+                    colors[i3 + 1] = color.g * brightness * 1.15; // Enhanced green
+                    colors[i3 + 2] = color.b * brightness * 0.75;
+
+                    // Slightly larger near the outside to add volume
+                    const sizeBoost = 1.0 + (1.0 - depthVariation) * 0.25;
+                    sizes[i] = (Math.random() * 0.04 + 0.015) * sizeBoost;
                 }
             }
         }
@@ -1422,22 +1481,26 @@ body, #canvas-container{
         particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
         particleGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
         particleGeometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
+        particleGeometry.setAttribute('lightMask', new THREE.BufferAttribute(lightMask, 1));
 
         // Custom shader material for particles with enhanced effects
         const particleMaterial = new THREE.ShaderMaterial({
             uniforms: {
                 time: { value: 0 },
                 pixelRatio: { value: renderer.getPixelRatio() },
-                transitionProgress: { value: 0 }
+                transitionProgress: { value: 0 },
+                outerExtraAngle: { value: 0 }
             },
             vertexShader: `
                 attribute float size;
+                attribute float lightMask;
                 varying vec3 vColor;
                 varying float vSize;
                 varying float vSparkle;
                 uniform float time;
                 uniform float pixelRatio;
                 uniform float transitionProgress;
+                uniform float outerExtraAngle;
                 
                 // Noise function for organic movement
                 float noise(vec3 p) {
@@ -1448,19 +1511,19 @@ body, #canvas-container{
                     vColor = color;
                     vSize = size;
                     vec3 pos = position;
-                    
+
+
+                    // Extra Y-rotation for outer colored lights (keep inner green at base group rotation)
+                    float ang = outerExtraAngle * lightMask;
+                    float c = cos(ang);
+                    float s = sin(ang);
+                    pos = vec3(c * pos.x - s * pos.z, pos.y, s * pos.x + c * pos.z);
+
                     // Enhanced movement during transition
                     float transitionEffect = sin(transitionProgress * 3.14159);
                     float moveScale = 1.0 + transitionEffect * 0.5;
                     
-                    // Subtle swaying motion
-                    float noiseVal = noise(pos * 0.5 + time * 0.1);
-                    pos.x += sin(time * 1.0 + position.y * 2.0 + noiseVal * 6.28) * 0.04 * moveScale;
-                    pos.z += cos(time * 1.0 + position.x * 2.0 + noiseVal * 6.28) * 0.04 * moveScale;
-                    
-                    // Slight vertical bobbing
-                    pos.y += sin(time * 1.2 + position.x * 3.0 + position.z * 3.0) * 0.015 * moveScale;
-                    
+                    // No per-particle position jitter (rotate the whole group instead)
                     // Sparkle factor - bigger particles (lights) sparkle more
                     vSparkle = 0.5 + 0.5 * sin(time * 7.0 + noise(position * 10.0) * 20.0);
                     // Extra sparkle during transition
@@ -1491,17 +1554,18 @@ body, #canvas-container{
                     vec3 finalColor;
                     
                     if (isLight) {
-                        // Bright Christmas lights with glow
+                        // Christmas lights - reduced brightness
                         alpha = 1.0 - smoothstep(0.0, 0.5, dist);
-                        float glow = exp(-dist * 3.0) * vSparkle;
-                        float core = smoothstep(0.2, 0.0, dist);
-                        finalColor = vColor * (1.2 + glow * 1.5) + vec3(1.0) * core * 0.6;
-                        alpha = alpha * (0.85 + vSparkle * 0.15);
+                        float glow = exp(-dist * 3.5) * vSparkle;
+                        float core = smoothstep(0.25, 0.0, dist);
+                        finalColor = vColor * (0.9 + glow * 1.0) + vec3(1.0) * core * 0.4;
+                        alpha = alpha * (0.75 + vSparkle * 0.15);
                     } else {
-                        // Dense tree particles with a soft glow
+                        // Tree particles - richer green with better saturation
                         alpha = 1.0 - smoothstep(0.0, 0.5, dist);
-                        float softGlow = exp(-dist * 5.0) * 0.35;
-                        finalColor = vColor * (1.05 + vSparkle * 0.25) + vec3(1.0) * softGlow * 0.08;
+                        float softGlow = exp(-dist * 5.0) * 0.25;
+                        // Enhance color saturation and brightness
+                        finalColor = vColor * (1.0 + vSparkle * 0.2) + vec3(0.0, softGlow * 0.1, 0.0);
                         alpha = alpha * 0.95;
                     }
                     
@@ -1515,7 +1579,108 @@ body, #canvas-container{
         });
 
         const particles = new THREE.Points(particleGeometry, particleMaterial);
-        scene.add(particles);
+        shapeGroup.add(particles);
+
+        // ============== Spiral Garland (tree-only) ==============
+        const GARLAND = {
+            count: IS_MOBILE ? 1100 : 2200,
+            turns: 7.5,
+            speed: 0.22,
+            yMin: -1.2,
+            yMax: 7.6,
+            radiusTop: 0.45,
+            radiusBottom: 3.6
+        };
+
+        const garlandGeometry = new THREE.BufferGeometry();
+        const garlandPos = new Float32Array(GARLAND.count * 3);
+        const garlandCol = new Float32Array(GARLAND.count * 3);
+        const garlandSize = new Float32Array(GARLAND.count);
+
+        const goldA = new THREE.Color('#ffd166');
+        const goldB = new THREE.Color('#ffb703');
+
+        for (let i = 0; i < GARLAND.count; i++) {
+            const i3 = i * 3;
+
+            const t = i / (GARLAND.count - 1);
+            const y = GARLAND.yMin + t * (GARLAND.yMax - GARLAND.yMin);
+            const ny = (y - GARLAND.yMin) / (GARLAND.yMax - GARLAND.yMin);
+
+            const r = (1.0 - ny) * GARLAND.radiusBottom + ny * GARLAND.radiusTop;
+            const ang = ny * GARLAND.turns * Math.PI * 2 + (Math.random() - 0.5) * 0.25;
+
+            garlandPos[i3] = Math.cos(ang) * (r * (0.98 + Math.random() * 0.06));
+            garlandPos[i3 + 1] = y + (Math.random() - 0.5) * 0.06;
+            garlandPos[i3 + 2] = Math.sin(ang) * (r * (0.98 + Math.random() * 0.06));
+
+            const c = goldA.clone().lerp(goldB, Math.random());
+            garlandCol[i3] = c.r;
+            garlandCol[i3 + 1] = c.g;
+            garlandCol[i3 + 2] = c.b;
+
+            garlandSize[i] = (IS_MOBILE ? 0.11 : 0.13) + Math.random() * 0.06;
+        }
+
+        garlandGeometry.setAttribute('position', new THREE.BufferAttribute(garlandPos, 3));
+        garlandGeometry.setAttribute('color', new THREE.BufferAttribute(garlandCol, 3));
+        garlandGeometry.setAttribute('size', new THREE.BufferAttribute(garlandSize, 1));
+
+        const garlandMaterial = new THREE.ShaderMaterial({
+            uniforms: {
+                time: { value: 0 },
+                pixelRatio: { value: renderer.getPixelRatio() },
+                speed: { value: GARLAND.speed }
+            },
+            vertexShader: `
+                attribute float size;
+                varying vec3 vColor;
+                varying float vGlow;
+                uniform float time;
+                uniform float pixelRatio;
+                uniform float speed;
+
+                void main() {
+                    vColor = color;
+
+                    // Orbit around Y axis (body stays static)
+                    float ang = time * speed;
+                    float c = cos(ang);
+                    float s = sin(ang);
+                    vec3 pos = vec3(c * position.x - s * position.z, position.y, s * position.x + c * position.z);
+
+                    // Soft pulsing glow
+                    vGlow = 0.6 + 0.4 * sin(time * 3.2 + position.y * 1.7);
+
+                    vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
+                    gl_PointSize = size * pixelRatio * (430.0 / -mvPosition.z) * (0.9 + 0.25 * vGlow);
+                    gl_Position = projectionMatrix * mvPosition;
+                }
+            `,
+            fragmentShader: `
+                varying vec3 vColor;
+                varying float vGlow;
+                void main() {
+                    vec2 uv = gl_PointCoord - vec2(0.5);
+                    float d = length(uv);
+                    float core = smoothstep(0.45, 0.0, d);
+                    float halo = exp(-d * 7.0) * 0.55;
+                    float a = core + halo;
+                    vec3 col = vColor * (1.1 + 0.35 * vGlow) + vec3(1.0) * halo * 0.12;
+                    gl_FragColor = vec4(col, a);
+                }
+            `,
+            transparent: true,
+            vertexColors: true,
+            blending: THREE.AdditiveBlending,
+            depthWrite: false
+        });
+
+        const garland = new THREE.Points(garlandGeometry, garlandMaterial);
+        garland.name = 'garland';
+        garland.visible = false; // tree-only
+        shapeGroup.add(garland);
+
 
         // ============== Snowflake Particles ==============
         const snowCount = IS_MOBILE ? 260 : 420;
@@ -1574,8 +1739,9 @@ body, #canvas-container{
         // ============== Christmas Ornaments ==============
         const ornamentGroup = new THREE.Group();
         const ornamentColorsTheme = CONFIG.themes[currentTheme].lightColors;
+        const ornamentOriginalPositions = []; // Store original positions for transition
         
-        for (let i = 0; i < 50; i++) {
+        for (let i = 0; i < 100; i++) {
             const ornamentGeometry = new THREE.SphereGeometry(0.08 + Math.random() * 0.06, 16, 16);
             const colorIndex = Math.floor(Math.random() * ornamentColorsTheme.length);
             const ornamentMaterial = new THREE.MeshStandardMaterial({
@@ -1594,11 +1760,21 @@ body, #canvas-container{
             const radius = (1 - normalizedHeight) * 3.2 + 0.4;
             const angle = Math.random() * Math.PI * 2;
             
-            ornament.position.set(
-                Math.cos(angle) * radius,
-                height,
-                Math.sin(angle) * radius
-            );
+            const posX = Math.cos(angle) * radius;
+            const posY = height;
+            const posZ = Math.sin(angle) * radius;
+            
+            ornament.position.set(posX, posY, posZ);
+            
+            // Store original position and generate scatter position
+            ornamentOriginalPositions.push({
+                original: { x: posX, y: posY, z: posZ },
+                scatter: {
+                    x: (Math.random() - 0.5) * 25,
+                    y: (Math.random() - 0.5) * 15 + 3,
+                    z: (Math.random() - 0.5) * 25
+                }
+            });
             
             // Add small cap on top
             const capGeometry = new THREE.CylinderGeometry(0.03, 0.05, 0.08, 8);
@@ -1609,7 +1785,7 @@ body, #canvas-container{
             
             ornamentGroup.add(ornament);
         }
-        scene.add(ornamentGroup);
+        shapeGroup.add(ornamentGroup);
         // Start with ornaments hidden (sphere mode)
         ornamentGroup.scale.set(0.001, 0.001, 0.001);
 
@@ -1758,22 +1934,280 @@ body, #canvas-container{
         ground.rotation.x = -Math.PI / 2;
         ground.position.y = -2;
         scene.add(ground);
-
-        // Ground glow ring
-        const ringGeometry = new THREE.RingGeometry(3.8, 4.3, 64);
-        const ringMaterial = new THREE.MeshBasicMaterial({
-            color: CONFIG.themes[currentTheme].treeColor,
-            transparent: true,
-            opacity: 0.3,
-            blending: THREE.AdditiveBlending,
-            side: THREE.DoubleSide
+        
+        // ============== Elegant Gift Boxes Under Tree ==============
+        const giftGroup = new THREE.Group();
+        const giftColors = [
+            { box: 0xd9735b, ribbon: 0xf5e6d3, accent: 0xfff8f0 }, // Soft coral, warm cream
+            { box: 0x4a9f4a, ribbon: 0xd45555, accent: 0xe88888 }, // Soft green, muted red
+            { box: 0xc75050, ribbon: 0xe8d174, accent: 0xf5e6a3 }, // Warm red, soft gold
+            { box: 0x5b8fb8, ribbon: 0xf0ebe6, accent: 0xfaf8f5 }, // Dusty blue, off-white
+            { box: 0x9668a8, ribbon: 0xd4a85a, accent: 0xe8c987 }, // Muted purple, warm gold
+            { box: 0x3dab6e, ribbon: 0xf0dcc8, accent: 0xfaf0e6 }, // Sage green, cream
+            { box: 0xd48545, ribbon: 0xebe6e0, accent: 0xf5f2ef }, // Burnt sienna, warm white
+            { box: 0xc75a7a, ribbon: 0x6bb88a, accent: 0x8ed4a8 }, // Dusty rose, sage
+            { box: 0x4aa8a0, ribbon: 0xc75555, accent: 0xd88888 }, // Soft teal, coral red
+            { box: 0xc9a04a, ribbon: 0x8b4555, accent: 0xa86070 }, // Antique gold, burgundy
+            { box: 0x6ba3c9, ribbon: 0xdbc065, accent: 0xe8d48a }, // Steel blue, wheat
+            { box: 0x8b6b9c, ribbon: 0xe8dcd0, accent: 0xf5f0ea }, // Lavender, ivory
+        ];
+        
+        function createElegantGiftBox(width, height, depth, boxColor, ribbonColor, accentColor) {
+            const gift = new THREE.Group();
+            
+            // Soft matte box - no emissive to avoid bloom influence
+            const boxGeometry = new THREE.BoxGeometry(width, height, depth);
+            const boxMaterial = new THREE.MeshStandardMaterial({
+                color: boxColor,
+                metalness: 0.0,
+                roughness: 0.85
+            });
+            const box = new THREE.Mesh(boxGeometry, boxMaterial);
+            gift.add(box);
+            
+            // Soft fabric-like ribbon material - no emissive
+            const ribbonMaterial = new THREE.MeshStandardMaterial({
+                color: ribbonColor,
+                metalness: 0.0,
+                roughness: 0.75
+            });
+            
+            // Wide vertical ribbon wrapping around
+            const ribbonWidth = width * 0.22;
+            const ribbonVFront = new THREE.Mesh(
+                new THREE.BoxGeometry(ribbonWidth, height + 0.02, depth * 0.02),
+                ribbonMaterial
+            );
+            ribbonVFront.position.z = depth / 2;
+            gift.add(ribbonVFront);
+            
+            const ribbonVBack = new THREE.Mesh(
+                new THREE.BoxGeometry(ribbonWidth, height + 0.02, depth * 0.02),
+                ribbonMaterial
+            );
+            ribbonVBack.position.z = -depth / 2;
+            gift.add(ribbonVBack);
+            
+            const ribbonVTop = new THREE.Mesh(
+                new THREE.BoxGeometry(ribbonWidth, 0.02, depth + 0.02),
+                ribbonMaterial
+            );
+            ribbonVTop.position.y = height / 2;
+            gift.add(ribbonVTop);
+            
+            // Wide horizontal ribbon
+            const ribbonHLeft = new THREE.Mesh(
+                new THREE.BoxGeometry(width * 0.02, ribbonWidth, depth + 0.02),
+                ribbonMaterial
+            );
+            ribbonHLeft.position.x = width / 2;
+            gift.add(ribbonHLeft);
+            
+            const ribbonHRight = new THREE.Mesh(
+                new THREE.BoxGeometry(width * 0.02, ribbonWidth, depth + 0.02),
+                ribbonMaterial
+            );
+            ribbonHRight.position.x = -width / 2;
+            gift.add(ribbonHRight);
+            
+            const ribbonHTop = new THREE.Mesh(
+                new THREE.BoxGeometry(width + 0.02, 0.02, ribbonWidth),
+                ribbonMaterial
+            );
+            ribbonHTop.position.y = height / 2;
+            gift.add(ribbonHTop);
+            
+            // === Large puffy bow ===
+            const bowScale = Math.min(width, depth) * 0.55;
+            
+            // Bow loop material - soft fabric-like, no emissive
+            const bowMaterial = new THREE.MeshStandardMaterial({
+                color: ribbonColor,
+                metalness: 0.0,
+                roughness: 0.8
+            });
+            
+            // Create puffy bow loops using scaled spheres
+            const loopGeom = new THREE.SphereGeometry(bowScale * 0.5, 16, 12);
+            
+            // Left loop - elongated sphere
+            const loopLeft = new THREE.Mesh(loopGeom, bowMaterial);
+            loopLeft.position.set(-bowScale * 0.45, height / 2 + bowScale * 0.35, 0);
+            loopLeft.scale.set(0.7, 0.9, 0.5);
+            loopLeft.rotation.z = 0.4;
+            gift.add(loopLeft);
+            
+            // Right loop - elongated sphere
+            const loopRight = new THREE.Mesh(loopGeom, bowMaterial);
+            loopRight.position.set(bowScale * 0.45, height / 2 + bowScale * 0.35, 0);
+            loopRight.scale.set(0.7, 0.9, 0.5);
+            loopRight.rotation.z = -0.4;
+            gift.add(loopRight);
+            
+            // Inner highlight on loops
+            const innerLoopGeom = new THREE.SphereGeometry(bowScale * 0.25, 12, 8);
+            const highlightMaterial = new THREE.MeshStandardMaterial({
+                color: accentColor,
+                metalness: 0.0,
+                roughness: 0.85,
+                transparent: true,
+                opacity: 0.5
+            });
+            
+            const innerLeft = new THREE.Mesh(innerLoopGeom, highlightMaterial);
+            innerLeft.position.set(-bowScale * 0.5, height / 2 + bowScale * 0.4, bowScale * 0.1);
+            innerLeft.scale.set(0.6, 0.7, 0.4);
+            gift.add(innerLeft);
+            
+            const innerRight = new THREE.Mesh(innerLoopGeom, highlightMaterial);
+            innerRight.position.set(bowScale * 0.5, height / 2 + bowScale * 0.4, bowScale * 0.1);
+            innerRight.scale.set(0.6, 0.7, 0.4);
+            gift.add(innerRight);
+            
+            // Center knot - round and soft
+            const knotGeom = new THREE.SphereGeometry(bowScale * 0.28, 16, 12);
+            const knot = new THREE.Mesh(knotGeom, bowMaterial);
+            knot.position.set(0, height / 2 + bowScale * 0.25, 0);
+            knot.scale.set(1.0, 0.7, 0.8);
+            gift.add(knot);
+            
+            // Ribbon tails - curved and flowing
+            const tailGeom = new THREE.CylinderGeometry(ribbonWidth * 0.4, ribbonWidth * 0.5, bowScale * 0.9, 8);
+            
+            const tailLeft = new THREE.Mesh(tailGeom, bowMaterial);
+            tailLeft.position.set(-bowScale * 0.25, height / 2 - bowScale * 0.1, bowScale * 0.15);
+            tailLeft.rotation.set(0.5, 0, -0.6);
+            gift.add(tailLeft);
+            
+            const tailRight = new THREE.Mesh(tailGeom, bowMaterial);
+            tailRight.position.set(bowScale * 0.25, height / 2 - bowScale * 0.1, bowScale * 0.15);
+            tailRight.rotation.set(0.5, 0, 0.6);
+            gift.add(tailRight);
+            
+            // Tail ends - tapered
+            const tailEndGeom = new THREE.ConeGeometry(ribbonWidth * 0.35, bowScale * 0.4, 8);
+            
+            const tailEndLeft = new THREE.Mesh(tailEndGeom, bowMaterial);
+            tailEndLeft.position.set(-bowScale * 0.5, height / 2 - bowScale * 0.45, bowScale * 0.3);
+            tailEndLeft.rotation.set(0.3, 0, -0.8);
+            gift.add(tailEndLeft);
+            
+            const tailEndRight = new THREE.Mesh(tailEndGeom, bowMaterial);
+            tailEndRight.position.set(bowScale * 0.5, height / 2 - bowScale * 0.45, bowScale * 0.3);
+            tailEndRight.rotation.set(0.3, 0, 0.8);
+            gift.add(tailEndRight);
+            
+            return gift;
+        }
+        
+        // Create gifts across wider area
+        const giftConfigs = [
+            // Front arc - z > 3.5 (in front of tree)
+            { x: 0, z: 4.0, size: [0.7, 0.6, 0.7], rot: 0.1 },
+            { x: 1.2, z: 3.8, size: [0.55, 0.5, 0.55], rot: 0.4 },
+            { x: -1.0, z: 3.9, size: [0.6, 0.55, 0.6], rot: -0.3 },
+            { x: 2.2, z: 3.5, size: [0.65, 0.55, 0.6], rot: 0.5 },
+            { x: -2.0, z: 3.6, size: [0.7, 0.65, 0.65], rot: -0.4 },
+            { x: 0.6, z: 4.3, size: [0.5, 0.45, 0.5], rot: 0.2 },
+            { x: -0.5, z: 4.2, size: [0.55, 0.5, 0.55], rot: -0.2 },
+            
+            // Left side arc - x < -3.5
+            { x: -4.0, z: 1.5, size: [0.8, 0.7, 0.75], rot: -0.35 },
+            { x: -4.2, z: 0, size: [0.65, 0.7, 0.65], rot: -0.2 },
+            { x: -3.8, z: -1.2, size: [0.7, 0.6, 0.65], rot: -0.5 },
+            { x: -4.5, z: 2.5, size: [0.6, 0.55, 0.6], rot: -0.3 },
+            { x: -3.6, z: 2.8, size: [0.55, 0.5, 0.55], rot: -0.4 },
+            
+            // Right side arc - x > 3.5
+            { x: 4.0, z: 1.5, size: [0.75, 0.7, 0.7], rot: 0.3 },
+            { x: 4.3, z: 0, size: [0.7, 0.6, 0.7], rot: 0.15 },
+            { x: 3.8, z: -1.0, size: [0.6, 0.55, 0.6], rot: 0.45 },
+            { x: 4.5, z: 2.3, size: [0.65, 0.6, 0.65], rot: 0.25 },
+            { x: 3.6, z: 2.9, size: [0.55, 0.5, 0.55], rot: 0.35 },
+            
+            // Back corners - z < -3
+            { x: 2.5, z: -3.2, size: [0.6, 0.55, 0.6], rot: 0.4 },
+            { x: -2.3, z: -3.0, size: [0.65, 0.6, 0.6], rot: -0.45 },
+            { x: 0.8, z: -3.5, size: [0.5, 0.45, 0.5], rot: 0.3 },
+            { x: -0.6, z: -3.4, size: [0.55, 0.5, 0.55], rot: -0.35 },
+            
+            // Outer front arc
+            { x: 3.0, z: 4.5, size: [0.9, 0.8, 0.85], rot: 0.2 },
+            { x: -2.8, z: 4.6, size: [0.85, 0.9, 0.8], rot: -0.25 },
+            { x: 1.5, z: 5.0, size: [0.7, 0.65, 0.7], rot: 0.15 },
+            { x: -1.3, z: 4.8, size: [0.75, 0.7, 0.75], rot: -0.18 },
+            { x: 0, z: 5.2, size: [0.65, 0.6, 0.65], rot: 0 },
+            
+            // Far sides
+            { x: 5.5, z: 1.2, size: [0.95, 0.85, 0.9], rot: 0.08 },
+            { x: -5.3, z: 1.5, size: [0.9, 0.95, 0.85], rot: -0.12 },
+            { x: 5.8, z: -0.5, size: [0.85, 0.8, 0.85], rot: 0.18 },
+            { x: -5.5, z: -0.3, size: [0.8, 0.9, 0.8], rot: -0.22 },
+            { x: 5.0, z: 2.8, size: [0.75, 0.7, 0.75], rot: 0.25 },
+            { x: -4.8, z: 3.0, size: [0.8, 0.75, 0.8], rot: -0.28 },
+            
+            // Extra far sides
+            { x: 6.5, z: 0.3, size: [1.0, 0.9, 0.95], rot: 0.05 },
+            { x: -6.3, z: 0.5, size: [0.95, 1.0, 0.9], rot: -0.08 },
+            { x: 6.0, z: 2.0, size: [0.85, 0.8, 0.85], rot: 0.12 },
+            { x: -5.8, z: 2.3, size: [0.9, 0.85, 0.9], rot: -0.15 },
+            
+            // Small gifts in front
+            { x: 2.5, z: 5.5, size: [0.5, 0.45, 0.5], rot: 0.6 },
+            { x: -2.2, z: 5.3, size: [0.55, 0.5, 0.55], rot: -0.55 },
+            { x: 0.8, z: 5.8, size: [0.5, 0.55, 0.5], rot: 0.1 },
+            { x: -0.6, z: 5.6, size: [0.45, 0.5, 0.45], rot: -0.15 },
+            { x: 4.0, z: 4.0, size: [0.5, 0.45, 0.5], rot: 0.5 },
+            { x: -3.8, z: 4.2, size: [0.55, 0.5, 0.55], rot: -0.45 },
+        ];
+        
+        giftConfigs.forEach((config, i) => {
+            const colorScheme = giftColors[i % giftColors.length];
+            const gift = createElegantGiftBox(
+                config.size[0], 
+                config.size[1], 
+                config.size[2], 
+                colorScheme.box, 
+                colorScheme.ribbon,
+                colorScheme.accent
+            );
+            gift.position.set(config.x, -2 + config.size[1] / 2 + 0.02, config.z);
+            gift.rotation.y = config.rot;
+            giftGroup.add(gift);
         });
-        const groundRing = new THREE.Mesh(ringGeometry, ringMaterial);
-        groundRing.rotation.x = -Math.PI / 2;
-        groundRing.position.y = -1.98;
-        groundRing.name = 'groundRing';
-        scene.add(groundRing);
-
+        
+        // Stacked gift clusters - all outside tree radius
+        const stacks = [
+            { base: { x: 3.0, z: 4.5 }, top: { size: [0.6, 0.5, 0.6], yOff: 0.8, rot: 0.4 } },
+            { base: { x: -2.8, z: 4.6 }, top: { size: [0.55, 0.45, 0.55], yOff: 0.9, rot: -0.5 } },
+            { base: { x: 4.0, z: 1.5 }, top: { size: [0.5, 0.4, 0.5], yOff: 0.7, rot: 0.6 } },
+            { base: { x: -4.0, z: 1.5 }, top: { size: [0.45, 0.35, 0.45], yOff: 0.8, rot: -0.55 } },
+            { base: { x: 5.5, z: 1.2 }, top: { size: [0.6, 0.5, 0.6], yOff: 0.85, rot: 0.3 } },
+            { base: { x: -5.3, z: 1.5 }, top: { size: [0.55, 0.5, 0.55], yOff: 0.95, rot: -0.35 } },
+            { base: { x: 6.5, z: 0.3 }, top: { size: [0.65, 0.55, 0.65], yOff: 0.9, rot: 0.25 } },
+            { base: { x: -6.3, z: 0.5 }, top: { size: [0.6, 0.5, 0.6], yOff: 1.0, rot: -0.3 } },
+        ];
+        
+        stacks.forEach((stack, i) => {
+            const colorScheme = giftColors[(i + 5) % giftColors.length];
+            const topGift = createElegantGiftBox(
+                stack.top.size[0],
+                stack.top.size[1],
+                stack.top.size[2],
+                colorScheme.box,
+                colorScheme.ribbon,
+                colorScheme.accent
+            );
+            topGift.position.set(
+                stack.base.x,
+                -2 + stack.top.yOff + stack.top.size[1] / 2,
+                stack.base.z
+            );
+            topGift.rotation.y = stack.top.rot;
+            giftGroup.add(topGift);
+        });
+        
+        scene.add(giftGroup);
         // ============== Star on Top ==============
         function createStar() {
             const starGroup = new THREE.Group();
@@ -1801,7 +2235,7 @@ body, #canvas-container{
             const starMaterial = new THREE.MeshStandardMaterial({
                 color: 0xffd700,
                 emissive: 0xffd700,
-                emissiveIntensity: 1.8,
+                emissiveIntensity: 1.4,
                 metalness: 1.0,
                 roughness: 0.05
             });
@@ -1822,18 +2256,18 @@ body, #canvas-container{
             starGroup.add(core);
 
             // Inner glow sphere - small
-            const innerGlowGeometry = new THREE.SphereGeometry(0.18, 16, 16);
+            const innerGlowGeometry = new THREE.SphereGeometry(0.12, 16, 16);
             const innerGlowMaterial = new THREE.MeshBasicMaterial({
                 color: 0xffd700,
                 transparent: true,
-                opacity: 0.5
+                opacity: 0.3
             });
             const innerGlow = new THREE.Mesh(innerGlowGeometry, innerGlowMaterial);
             innerGlow.name = 'innerGlow';
             starGroup.add(innerGlow);
 
             // Outer glow sphere - small
-            const outerGlowGeometry = new THREE.SphereGeometry(0.35, 16, 16);
+            const outerGlowGeometry = new THREE.SphereGeometry(0.25, 16, 16);
             const outerGlowMaterial = new THREE.ShaderMaterial({
                 uniforms: {
                     color: { value: new THREE.Color(0xffd700) },
@@ -1853,7 +2287,7 @@ body, #canvas-container{
                     void main() {
                         float intensity = pow(0.7 - dot(vNormal, vec3(0, 0, 1.0)), 2.0);
                         float pulse = 0.7 + 0.3 * sin(time * 2.5);
-                        gl_FragColor = vec4(color, intensity * pulse * 0.4);
+                        gl_FragColor = vec4(color, intensity * pulse * 0.30);
                     }
                 `,
                 transparent: true,
@@ -1885,7 +2319,7 @@ body, #canvas-container{
                     void main() {
                         float intensity = pow(0.6 - dot(vNormal, vec3(0, 0, 1.0)), 3.0);
                         float pulse = 0.6 + 0.4 * sin(time * 1.5);
-                        gl_FragColor = vec4(color, intensity * pulse * 0.15);
+                        gl_FragColor = vec4(color, intensity * pulse * 0.11);
                     }
                 `,
                 transparent: true,
@@ -1905,7 +2339,7 @@ body, #canvas-container{
                 const rayMaterial = new THREE.MeshBasicMaterial({
                     color: 0xffd700,
                     transparent: true,
-                    opacity: 0.3,
+                    opacity: 0.24,
                     blending: THREE.AdditiveBlending,
                     side: THREE.DoubleSide
                 });
@@ -1917,7 +2351,7 @@ body, #canvas-container{
             }
 
             // Point light from star - reduced
-            const starLight = new THREE.PointLight(0xffd700, 1.5, 8);
+            const starLight = new THREE.PointLight(0xffd700, 0.5, 5);
             starLight.name = 'starLight';
             starGroup.add(starLight);
 
@@ -1961,7 +2395,7 @@ body, #canvas-container{
                         if (d > 0.5) discard;
                         float a = (1.0 - smoothstep(0.0, 0.5, d)) * vTw;
                         vec3 c = vec3(1.0, 0.9, 0.3);
-                        gl_FragColor = vec4(c, a);
+                        gl_FragColor = vec4(c, a * 0.75);
                     }
                 `,
                 transparent: true,
@@ -1979,9 +2413,12 @@ body, #canvas-container{
         }
 
         const star = createStar();
-        scene.add(star);
+        shapeGroup.add(star);
         // Start with star hidden (sphere mode)
         star.visible = false;
+            const garlandObj = shapeGroup.getObjectByName('garland');
+            if (garlandObj) garlandObj.visible = star.visible;
+
 
         // ============== Photo Frames ==============
         const photoFramesGroup = new THREE.Group();
@@ -2027,12 +2464,13 @@ body, #canvas-container{
             right.position.x = frameWidth / 2 + frameBorder / 2;
             frameGroup.add(right);
 
-            // Photo plane (placeholder)
+            // Photo plane (placeholder) - visible from both sides
             const photoGeometry = new THREE.PlaneGeometry(frameWidth, frameHeight);
             const photoMaterial = new THREE.MeshBasicMaterial({
                 color: 0x333333,
                 transparent: true,
-                opacity: 0.8
+                opacity: 0.8,
+                side: THREE.DoubleSide
             });
             const photoPlane = new THREE.Mesh(photoGeometry, photoMaterial);
             photoPlane.position.z = -frameDepth / 2;
@@ -2047,45 +2485,51 @@ body, #canvas-container{
             photoFramesGroup.add(frameGroup);
         }
 
-        scene.add(photoFramesGroup);
+        shapeGroup.add(photoFramesGroup);
+        
+        // Store frame original and scatter positions for animation
+        const frameOriginalPositions = [];
+        const frameScatterPositions = [];
+        photoFramesGroup.children.forEach((frame, i) => {
+            frameOriginalPositions.push({
+                x: frame.position.x,
+                y: frame.position.y,
+                z: frame.position.z
+            });
+            // Fly-out positions - frames exit to sides and below view
+            const angle = (i / 5) * Math.PI * 2 + Math.PI * 0.3; // Spread around
+            const exitRadius = 25 + Math.random() * 10; // Far outside view
+            frameScatterPositions.push({
+                x: Math.cos(angle) * exitRadius,
+                y: -8 - Math.random() * 5, // Below view
+                z: Math.sin(angle) * exitRadius * 0.8
+            });
+        });
 
         // ============== Mode Transition ==============
         let transitionPhase = 0; // 0 = expand, 1 = contract
         
         function generateMidPositions(fromMode, toMode) {
-            // Generate explosion/spiral mid-point positions
+            // Generate explosion positions that scatter particles across the entire screen
             for (let i = 0; i < particleCount; i++) {
                 const i3 = i * 3;
-                const startX = transitionStartPositions[i3];
-                const startY = transitionStartPositions[i3 + 1];
-                const startZ = transitionStartPositions[i3 + 2];
                 
-                // Calculate angle and distance from center
-                const angle = Math.atan2(startZ, startX);
-                const dist = Math.sqrt(startX * startX + startZ * startZ);
+                // Random angle for radial scatter
+                const theta = Math.random() * Math.PI * 2;
+                const phi = Math.acos(2 * Math.random() - 1);
                 
-                // Different effects based on transition type
-                if (toMode === 'sphere') {
-                    // Spiral outward explosion
-                    const spiralAngle = angle + (startY * 0.5);
-                    const expandDist = dist + 3 + Math.random() * 2;
-                    transitionMidPositions[i3] = Math.cos(spiralAngle) * expandDist;
-                    transitionMidPositions[i3 + 1] = startY + (Math.random() - 0.5) * 3;
-                    transitionMidPositions[i3 + 2] = Math.sin(spiralAngle) * expandDist;
-                } else if (toMode === 'photo') {
-                    // Rise up and spread out
-                    transitionMidPositions[i3] = startX * 1.5 + (Math.random() - 0.5) * 2;
-                    transitionMidPositions[i3 + 1] = startY + 4 + Math.random() * 2;
-                    transitionMidPositions[i3 + 2] = startZ * 0.3;
-                } else if (toMode === 'tree') {
-                    // Swirl inward
-                    const swirlAngle = angle + Math.PI * 0.5;
-                    transitionMidPositions[i3] = Math.cos(swirlAngle) * (dist * 0.8 + 2);
-                    transitionMidPositions[i3 + 1] = startY * 0.5 + 3;
-                    transitionMidPositions[i3 + 2] = Math.sin(swirlAngle) * (dist * 0.8 + 2);
-                }
+                // Large radius to fill the screen
+                const scatterRadius = 12 + Math.random() * 8;
+                
+                // Scatter in a large sphere/disk around the center
+                transitionMidPositions[i3] = scatterRadius * Math.sin(phi) * Math.cos(theta);
+                transitionMidPositions[i3 + 1] = scatterRadius * Math.cos(phi) * 0.6 + 3; // Flatten slightly, center vertically
+                transitionMidPositions[i3 + 2] = scatterRadius * Math.sin(phi) * Math.sin(theta);
             }
         }
+        
+        // Track rotation during transition
+        let transitionRotation = 0;
         
         function updateParticlePositions() {
             const positions = particleGeometry.attributes.position.array;
@@ -2094,21 +2538,63 @@ body, #canvas-container{
                 transitionProgress += CONFIG.transitionSpeed;
                 transitionProgress = Math.min(transitionProgress, 1);
 
-                // Two-phase animation: expand then contract (faster)
+                // Three-phase animation with rotation during scatter
                 let t;
-                if (transitionProgress < 0.3) {
-                    // Phase 1: Move to mid positions (explosion/spread) - shorter
-                    t = easeOutQuad(transitionProgress / 0.3);
-                    for (let i = 0; i < particleCount * 3; i++) {
-                        positions[i] = transitionStartPositions[i] + 
-                                       (transitionMidPositions[i] - transitionStartPositions[i]) * t;
+                
+                // Calculate rotation angle - peaks at middle of transition
+                const rotationAmount = Math.sin(transitionProgress * Math.PI) * Math.PI * 2;
+                const cosR = Math.cos(rotationAmount);
+                const sinR = Math.sin(rotationAmount);
+                
+                if (transitionProgress < 0.4) {
+                    // Phase 1: Scatter outward to fill screen
+                    t = easeOutCubic(transitionProgress / 0.4);
+                    for (let i = 0; i < particleCount; i++) {
+                        const i3 = i * 3;
+                        // Interpolate position
+                        let x = transitionStartPositions[i3] + 
+                               (transitionMidPositions[i3] - transitionStartPositions[i3]) * t;
+                        let y = transitionStartPositions[i3 + 1] + 
+                               (transitionMidPositions[i3 + 1] - transitionStartPositions[i3 + 1]) * t;
+                        let z = transitionStartPositions[i3 + 2] + 
+                               (transitionMidPositions[i3 + 2] - transitionStartPositions[i3 + 2]) * t;
+                        
+                        // Apply rotation around Y axis
+                        positions[i3] = x * cosR - z * sinR;
+                        positions[i3 + 1] = y;
+                        positions[i3 + 2] = x * sinR + z * cosR;
+                    }
+                } else if (transitionProgress < 0.6) {
+                    // Phase 2: Hold scattered with rotation
+                    t = (transitionProgress - 0.4) / 0.2;
+                    for (let i = 0; i < particleCount; i++) {
+                        const i3 = i * 3;
+                        let x = transitionMidPositions[i3];
+                        let y = transitionMidPositions[i3 + 1];
+                        let z = transitionMidPositions[i3 + 2];
+                        
+                        // Apply rotation
+                        positions[i3] = x * cosR - z * sinR;
+                        positions[i3 + 1] = y;
+                        positions[i3 + 2] = x * sinR + z * cosR;
                     }
                 } else {
-                    // Phase 2: Move from mid to target (gather)
-                    t = easeInOutCubic((transitionProgress - 0.3) / 0.7);
-                    for (let i = 0; i < particleCount * 3; i++) {
-                        positions[i] = transitionMidPositions[i] + 
-                                       (transitionTargetPositions[i] - transitionMidPositions[i]) * t;
+                    // Phase 3: Gather to target
+                    t = easeInOutCubic((transitionProgress - 0.6) / 0.4);
+                    for (let i = 0; i < particleCount; i++) {
+                        const i3 = i * 3;
+                        // Interpolate from mid to target
+                        let x = transitionMidPositions[i3] + 
+                               (transitionTargetPositions[i3] - transitionMidPositions[i3]) * t;
+                        let y = transitionMidPositions[i3 + 1] + 
+                               (transitionTargetPositions[i3 + 1] - transitionMidPositions[i3 + 1]) * t;
+                        let z = transitionMidPositions[i3 + 2] + 
+                               (transitionTargetPositions[i3 + 2] - transitionMidPositions[i3 + 2]) * t;
+                        
+                        // Apply decreasing rotation
+                        positions[i3] = x * cosR - z * sinR;
+                        positions[i3 + 1] = y;
+                        positions[i3 + 2] = x * sinR + z * cosR;
                     }
                 }
 
@@ -2120,27 +2606,152 @@ body, #canvas-container{
                 }
             }
 
-            // Update frame visibility with fade
-            photoFramesGroup.children.forEach(frame => {
-                const shouldShow = currentMode === 'photo' || (targetMode === 'photo' && transitionProgress > 0.4);
-                frame.visible = shouldShow;
-            });
+            // Animate photo frames during transition
+            if (transitionProgress < 1 && transitionProgress > 0) {
+                // Show frames during transition if going to/from photo mode
+                if (targetMode === 'photo' || currentMode === 'photo') {
+                    photoFramesGroup.children.forEach((frame, i) => {
+                        frame.visible = true;
+                        const origPos = frameOriginalPositions[i];
+                        const scatterPos = frameScatterPositions[i];
+                        
+                        // Stagger animation per frame for more elegant effect
+                        const stagger = i * 0.08;
+                        
+                        let x, y, z, frameRotY, frameRotX, opacity;
+                        
+                        if (targetMode === 'photo') {
+                            // Coming into photo mode: fly in from off-screen
+                            const adjustedProgress = Math.max(0, Math.min(1, (transitionProgress - stagger) / (1 - stagger)));
+                            const easeIn = easeOutCubic(adjustedProgress);
+                            
+                            x = scatterPos.x + (origPos.x - scatterPos.x) * easeIn;
+                            y = scatterPos.y + (origPos.y - scatterPos.y) * easeIn;
+                            z = scatterPos.z + (origPos.z - scatterPos.z) * easeIn;
+                            
+                            // Spin while flying in (2 full rotations)
+                            frameRotY = (1 - easeIn) * Math.PI * 4;
+                            frameRotX = (1 - easeIn) * Math.PI * 0.5;
+                            opacity = easeIn;
+                        } else {
+                            // Leaving photo mode: fly out elegantly
+                            const adjustedProgress = Math.max(0, Math.min(1, (transitionProgress - stagger) / (0.7 - stagger)));
+                            const easeOut = easeOutCubic(adjustedProgress);
+                            
+                            x = origPos.x + (scatterPos.x - origPos.x) * easeOut;
+                            y = origPos.y + (scatterPos.y - origPos.y) * easeOut;
+                            z = origPos.z + (scatterPos.z - origPos.z) * easeOut;
+                            
+                            // Spin while flying out
+                            frameRotY = easeOut * Math.PI * 3;
+                            frameRotX = easeOut * Math.PI * 0.4;
+                            opacity = 1 - easeOut;
+                        }
+                        
+                        frame.position.set(x, y, z);
+                        frame.rotation.y = frameRotY;
+                        frame.rotation.x = frameRotX;
+                        
+                        // Scale shrinks as it flies away
+                        const scale = targetMode === 'photo' 
+                            ? 0.3 + opacity * 0.7 
+                            : 1 - (1 - opacity) * 0.5;
+                        frame.scale.set(scale, scale, scale);
+                        
+                        // Update material opacity for fade effect
+                        frame.traverse(child => {
+                            if (child.material) {
+                                child.material.transparent = true;
+                                child.material.opacity = Math.max(0.1, opacity);
+                            }
+                        });
+                    });
+                } else {
+                    // Hide frames if not involved in transition
+                    photoFramesGroup.children.forEach(frame => {
+                        frame.visible = false;
+                    });
+                }
+            } else if (transitionProgress >= 1) {
+                // Reset frame positions when transition complete
+                if (currentMode === 'photo') {
+                    photoFramesGroup.children.forEach((frame, i) => {
+                        frame.visible = true;
+                        const origPos = frameOriginalPositions[i];
+                        frame.position.set(origPos.x, origPos.y, origPos.z);
+                        frame.rotation.set(0, 0, 0);
+                        frame.scale.set(1, 1, 1);
+                        // Reset opacity
+                        frame.traverse(child => {
+                            if (child.material) {
+                                child.material.opacity = 1;
+                            }
+                        });
+                    });
+                } else {
+                    photoFramesGroup.children.forEach(frame => {
+                        frame.visible = false;
+                    });
+                }
+            }
             
-            // Hide ornaments and star during non-tree modes
-            const ornamentTargetScale = (currentMode === 'tree' || targetMode === 'tree') ? 
-                (targetMode === 'tree' ? 1 : 0.001) : 0.001;
-            ornamentGroup.scale.lerp(
-                new THREE.Vector3(ornamentTargetScale, ornamentTargetScale, ornamentTargetScale),
-                0.08
-            );
+            // Animate ornaments during transition - scatter and rotate with particles
+            if (transitionProgress < 1 && transitionProgress > 0) {
+                // Calculate scatter amount - peaks at middle of transition
+                const scatterAmount = Math.sin(transitionProgress * Math.PI);
+                const rotationAmount = Math.sin(transitionProgress * Math.PI) * Math.PI * 2;
+                const cosR = Math.cos(rotationAmount);
+                const sinR = Math.sin(rotationAmount);
+                
+                // Show ornaments during transition if going to/from tree
+                if (targetMode === 'tree' || currentMode === 'tree') {
+                    ornamentGroup.scale.set(1, 1, 1);
+                    
+                    ornamentGroup.children.forEach((ornament, i) => {
+                        const origPos = ornamentOriginalPositions[i].original;
+                        const scatterPos = ornamentOriginalPositions[i].scatter;
+                        
+                        // Interpolate between original and scatter position
+                        let x = origPos.x + (scatterPos.x - origPos.x) * scatterAmount;
+                        let y = origPos.y + (scatterPos.y - origPos.y) * scatterAmount;
+                        let z = origPos.z + (scatterPos.z - origPos.z) * scatterAmount;
+                        
+                        // Apply rotation
+                        const rotatedX = x * cosR - z * sinR;
+                        const rotatedZ = x * sinR + z * cosR;
+                        
+                        ornament.position.set(rotatedX, y, rotatedZ);
+                        
+                        // Rotate ornament itself
+                        ornament.rotation.y = rotationAmount * 2;
+                        ornament.rotation.x = scatterAmount * Math.PI * 0.5;
+                    });
+                }
+            } else if (transitionProgress >= 1) {
+                // Reset ornament positions when transition complete
+                if (currentMode === 'tree') {
+                    ornamentGroup.scale.set(1, 1, 1);
+                    ornamentGroup.children.forEach((ornament, i) => {
+                        const origPos = ornamentOriginalPositions[i].original;
+                        ornament.position.set(origPos.x, origPos.y, origPos.z);
+                        ornament.rotation.set(0, 0, 0);
+                    });
+                } else {
+                    ornamentGroup.scale.set(0.001, 0.001, 0.001);
+                }
+            }
             
             // Star visibility
-            star.visible = currentMode === 'tree' || (targetMode === 'tree' && transitionProgress > 0.5);
+            star.visible = currentMode === 'tree' || (targetMode === 'tree' && transitionProgress > 0.7);
         }
 
         // Easing functions
         function easeOutQuad(t) {
             return t * (2 - t);
+        }
+        
+        function easeOutCubic(t) {
+            return 1 - Math.pow(1 - t, 3);
         }
         
         function easeInOutCubic(t) {
@@ -2179,7 +2790,15 @@ body, #canvas-container{
                 transitionProgress = 0;
                 transitionPhase = 0;
                 updateModeUI(mode);
+                // Reset outer-light orbit accumulator when switching modes
+                if (mode === 'tree') {
+                    outerExtraAngleAcc = 0;
+                    particleMaterial.uniforms.outerExtraAngle.value = 0;
+                } else {
+                    particleMaterial.uniforms.outerExtraAngle.value = 0;
+                }
             }
+
         }
 
         function updateModeUI(mode) {
@@ -2194,39 +2813,19 @@ body, #canvas-container{
             document.querySelectorAll('.manual-btn').forEach(btn => {
                 btn.classList.toggle('active', btn.dataset.mode === mode);
             });
-            
-            // Handle panel and buttons based on mode
-            const panel = document.getElementById('control-panel');
-            const backBtn = document.getElementById('photo-back-btn');
+
+            // Do NOT auto open/close side panel on gesture. Keep user choice.
             const floatingBackBtn = document.getElementById('floating-back-btn');
             const uploadedCount = uploadedPhotos.filter(p => p !== null).length;
-            
-            if (mode === 'photo' && uploadedCount > 0) {
-                backBtn.style.display = 'block';
-                floatingBackBtn.classList.add('visible');
-                // Auto collapse panel after a short delay for gesture-triggered changes
-                setTimeout(() => {
-                    if (targetMode === 'photo') {
-                        panel.classList.add('collapsed');
-                        if (typeof updateToggleIcon === 'function') {
-                            updateToggleIcon(true);
-                        }
-                    }
-                }, 500);
-            } else {
-                floatingBackBtn.classList.remove('visible');
-                if (mode !== 'photo') {
-                    backBtn.style.display = 'none';
-                    // Don't auto-expand on mobile
-                    const isMobile = window.innerWidth <= 768;
-                    if (!isMobile) {
-                        panel.classList.remove('collapsed');
-                    }
-                    if (typeof updateToggleIcon === 'function') {
-                        updateToggleIcon(panel.classList.contains('collapsed'));
-                    }
-                }
+
+            if (floatingBackBtn) {
+                if (mode === 'photo' && uploadedCount > 0) floatingBackBtn.classList.add('visible');
+                else floatingBackBtn.classList.remove('visible');
             }
+
+            // Keep panel back button hidden to avoid layout popups
+            const backBtn = document.getElementById('photo-back-btn');
+            if (backBtn) backBtn.style.display = 'none';
         }
 
         // ============== Theme Switching ==============
@@ -2288,12 +2887,27 @@ body, #canvas-container{
                     colors[i3 + 1] = lightColor.g;
                     colors[i3 + 2] = lightColor.b;
                 } else {
-                    const mixFactor = Math.random();
+                    // Get Y position from tree positions to calculate height-based shading
+                    const treeY = treePositions[i3 + 1];
+                    const normalizedY = Math.max(0, Math.min(1, (treeY + 1.5) / 9));
+                    
+                    const mixFactor = 0.1 + 0.35 * Math.random();
                     const color = treeColor.clone().lerp(treeColorAlt, mixFactor);
-                    const brightness = 0.7 + Math.random() * 0.5;
-                    colors[i3] = color.r * brightness;
-                    colors[i3 + 1] = color.g * brightness;
-                    colors[i3 + 2] = color.b * brightness;
+                    
+                    // Apply same height shading as initial generation - brighter but still darker at top
+                    const heightShade = 0.95 - normalizedY * 0.4;
+                    const randomShade = 0.85 + Math.random() * 0.2;
+                    
+                    // Strongly dim the top 40%
+                    const tipT = Math.min(Math.max((normalizedY - 0.6) / 0.4, 0), 1);
+                    const tipSmooth = tipT * tipT * (3 - 2 * tipT);
+                    const tipDamp = 1.0 - 0.4 * tipSmooth;
+                    
+                    const brightness = heightShade * randomShade * tipDamp;
+                    // Boost green channel for richer color
+                    colors[i3] = color.r * brightness * 0.85;
+                    colors[i3 + 1] = color.g * brightness * 1.15;
+                    colors[i3 + 2] = color.b * brightness * 0.75;
                 }
             }
             particleGeometry.attributes.color.needsUpdate = true;
@@ -2362,7 +2976,11 @@ body, #canvas-container{
                 const frame = photoFramesGroup.children[index];
                 const photoPlane = frame?.children?.find(c => c.name === `photo-${index}`);
                 if (photoPlane) {
-                    photoPlane.material = new THREE.MeshBasicMaterial({ map: texture, transparent: false });
+                    photoPlane.material = new THREE.MeshBasicMaterial({ 
+                        map: texture, 
+                        transparent: false,
+                        side: THREE.DoubleSide
+                    });
 
                     const aspect = img.width / img.height;
                     const frameAspect = frameWidth / frameHeight;
@@ -2422,7 +3040,8 @@ body, #canvas-container{
                     if (photoPlane) {
                         photoPlane.material = new THREE.MeshBasicMaterial({
                             map: texture,
-                            transparent: false
+                            transparent: false,
+                            side: THREE.DoubleSide
                         });
 
                         // Adjust aspect ratio
@@ -2457,7 +3076,8 @@ body, #canvas-container{
                 photoPlane.material = new THREE.MeshBasicMaterial({
                     color: 0x333333,
                     transparent: true,
-                    opacity: 0.8
+                    opacity: 0.8,
+                    side: THREE.DoubleSide
                 });
                 photoPlane.scale.set(1, 1, 1);
             }
@@ -2472,6 +3092,10 @@ body, #canvas-container{
         let video = null;
         let lastGesture = null;
         let gestureDebounce = 0;
+        
+        // Wave detection - simplified
+        let wavePositions = []; // Store recent x positions
+        let waveDebounce = 0;
         let isMediaPipeReady = false;
 
         async function initMediaPipe() {
@@ -2660,11 +3284,62 @@ body, #canvas-container{
                 }
                 
                 const gesture = recognizeGesture(landmarks);
-                console.log('Detected gesture:', gesture, 'Last gesture:', lastGesture, 'Debounce:', gestureDebounce);
+                const palmX = landmarks[0].x; // wrist x position
                 
-                if (gesture && gesture !== lastGesture && gestureDebounce <= 0) {
+                // Wave detection - track positions and detect back-and-forth motion
+                let waveTriggered = false;
+                
+                if (gesture === 'open' && waveDebounce <= 0) {
+                    // Store position with timestamp
+                    wavePositions.push({ x: palmX, t: Date.now() });
+                    
+                    // Keep only last 500ms of positions
+                    const now = Date.now();
+                    wavePositions = wavePositions.filter(p => now - p.t < 500);
+                    
+                    // Need at least 5 samples
+                    if (wavePositions.length >= 5) {
+                        // Count direction changes
+                        let changes = 0;
+                        let lastDir = 0;
+                        for (let i = 1; i < wavePositions.length; i++) {
+                            const dx = wavePositions[i].x - wavePositions[i-1].x;
+                            if (Math.abs(dx) > 0.02) {
+                                const dir = dx > 0 ? 1 : -1;
+                                if (lastDir !== 0 && dir !== lastDir) {
+                                    changes++;
+                                }
+                                lastDir = dir;
+                            }
+                        }
+                        
+                        // Detect wave: 3+ direction changes
+                        if (changes >= 3) {
+                            const themes = ['default', 'warm', 'cool'];
+                            const currentIdx = themes.indexOf(currentTheme);
+                            const nextTheme = themes[(currentIdx + 1) % themes.length];
+                            
+                            console.log('WAVE! Switching to:', nextTheme);
+                            setTheme(nextTheme);
+                            
+                            const themeNames = { default: '经典', warm: '暖色', cool: '冷色' };
+                            document.getElementById('gesture-display').textContent = '👋 切换到: ' + themeNames[nextTheme];
+                            
+                            wavePositions = [];
+                            waveDebounce = 90;
+                            gestureDebounce = 60;
+                            waveTriggered = true;
+                        }
+                    }
+                } else {
+                    // Reset when hand not open
+                    wavePositions = [];
+                }
+                
+                // Skip gesture processing if wave just triggered
+                if (!waveTriggered && gesture && gesture !== lastGesture && gestureDebounce <= 0) {
                     lastGesture = gesture;
-                    gestureDebounce = 45; // Increase debounce
+                    gestureDebounce = 45;
                     
                     const gestureNames = {
                         fist: '✊ 握拳 → 树形',
@@ -2673,7 +3348,6 @@ body, #canvas-container{
                     };
                     
                     document.getElementById('gesture-display').textContent = gestureNames[gesture] || gesture;
-                    console.log('Triggering mode change:', gesture);
                     
                     switch (gesture) {
                         case 'fist': setMode('tree'); break;
@@ -2683,6 +3357,7 @@ body, #canvas-container{
                 }
             } else {
                 // No hand detected
+                wavePositions = [];
                 if (gestureDebounce <= 0) {
                     document.getElementById('gesture-display').textContent = '🔍 请将手放入画面';
                 }
@@ -2692,6 +3367,7 @@ body, #canvas-container{
         // Debounce timer update - faster rate
         setInterval(() => {
             if (gestureDebounce > 0) gestureDebounce--;
+            if (waveDebounce > 0) waveDebounce--;
         }, 50);
 
         function recognizeGesture(landmarks) {
@@ -2715,7 +3391,7 @@ body, #canvas-container{
             // Pinky
             const pinkyExtended = landmarks[20].y < landmarks[18].y - 0.02;
             
-            // Thumb - check x distance (for right hand, thumb tip should be away from palm)
+            // Thumb extended sideways
             const thumbExtended = Math.abs(landmarks[4].x - landmarks[2].x) > 0.08;
             
             // Count fingers for open hand
@@ -2729,8 +3405,6 @@ body, #canvas-container{
             const pinkyCurled = landmarks[20].y > landmarks[17].y;
             
             const curledCount = [indexCurled, middleCurled, ringCurled, pinkyCurled].filter(Boolean).length;
-            
-            console.log(`Extended: ${extendedCount}, Curled: ${curledCount}, Index: ${indexExtended}, Middle: ${middleExtended}, Ring: ${ringExtended}, Pinky: ${pinkyExtended}`);
             
             // Peace/V sign: ONLY index and middle extended, ring and pinky curled
             // This is very distinct from both fist and open hand
@@ -2779,6 +3453,21 @@ body, #canvas-container{
                 e.target.value = ''; // Reset input to allow same file selection
             }
         });
+
+
+// Photo UI: compact by default, click "展开" to manage
+(function initPhotoUIToggle(){
+    const section = document.getElementById('photo-section');
+    const btn = document.getElementById('photo-toggle');
+    if (!section || !btn) return;
+    btn.addEventListener('click', (ev) => {
+        ev.preventDefault();
+        ev.stopPropagation();
+        section.classList.toggle('expanded');
+        btn.textContent = section.classList.contains('expanded') ? '缩略' : '展开';
+    });
+})();
+
         
         // Photo done button - switch to photo mode
         document.getElementById('photo-done-btn').addEventListener('click', () => {
@@ -2834,14 +3523,20 @@ body, #canvas-container{
 
         // ============== Animation Loop ==============
         let time = 0;
+        const clock = new THREE.Clock();
+        const ROT_SPEED = { tree: 0.35, sphere: 0.28, photo: 0 }; // radians/sec (photo stopped)
+        const TREE_ROT = { outer: 0.52 }; // tree: outer colorful lights orbit speed (rad/s)
+        let outerExtraAngleAcc = 0; // accumulates extra rotation for outer lights to avoid snapping
 
         function animate() {
             requestAnimationFrame(animate);
             
-            time += 0.016;
+            const dt = Math.min(clock.getDelta(), 0.033);
+            time += dt;
             particleMaterial.uniforms.time.value = time;
             particleMaterial.uniforms.transitionProgress.value = transitionProgress;
             bgStarsMaterial.uniforms.time.value = time;
+            if (garlandMaterial && garlandMaterial.uniforms) garlandMaterial.uniforms.time.value = time;
             
             // Animate snowflakes
             snowflakes.forEach((flake, i) => {
@@ -2861,11 +3556,25 @@ body, #canvas-container{
                     flake.position.z = (Math.random() - 0.5) * 35;
                 }
             });
-            
-            // Animate star
-            star.rotation.y += 0.005;
-            star.rotation.z = Math.sin(time * 1.2) * 0.08;
-            
+            // Rotation policy:
+// - Tree mode: body stays still. Only outer colorful lights orbit around it.
+// - Sphere/Photo modes: the whole shape rotates smoothly.
+            if (currentMode === 'tree') {
+                particleMaterial.uniforms.outerExtraAngle.value = time * TREE_ROT.outer;
+                // Ornaments (baubles) orbit with the outer lights
+                if (ornamentGroup) ornamentGroup.rotation.y = time * TREE_ROT.outer;
+            } else if (currentMode === 'photo') {
+                // Photo mode: no rotation, face forward
+                shapeGroup.rotation.y = 0;
+                particleMaterial.uniforms.outerExtraAngle.value = 0;
+                if (ornamentGroup) ornamentGroup.rotation.y = 0;
+            } else {
+                shapeGroup.rotation.y += dt * (ROT_SPEED[currentMode] ?? 0.25);
+                // Disable light-only extra rotation outside tree mode to avoid odd motion
+                particleMaterial.uniforms.outerExtraAngle.value = 0;
+                if (ornamentGroup) ornamentGroup.rotation.y = 0;
+            }
+
             // Pulse star glows
             const outerGlow = star.children.find(c => c.name === 'outerGlow');
             if (outerGlow && outerGlow.material.uniforms) {
@@ -2902,12 +3611,6 @@ body, #canvas-container{
             if (groundRing) {
                 groundRing.material.opacity = 0.2 + 0.1 * Math.sin(time * 2);
             }
-            
-            // Gentle ornament bob
-            ornamentGroup.children.forEach((ornament, i) => {
-                ornament.position.y += Math.sin(time * 2 + i * 0.5) * 0.001;
-            });
-            
             // Update particle positions during transition
             updateParticlePositions();
             
@@ -2983,4 +3686,3 @@ body, #canvas-container{
     </script>
 </body>
 </html>
-
