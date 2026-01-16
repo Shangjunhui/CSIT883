@@ -1014,6 +1014,149 @@ body, #canvas-container{
   }
 }
 
+/* ===== Toast Notification System ===== */
+.toast-container {
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    pointer-events: none;
+}
+
+.toast {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(30, 15, 15, 0.95));
+    border: 2px solid var(--primary);
+    border-radius: 15px;
+    padding: 15px 20px;
+    min-width: 280px;
+    max-width: 400px;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 30px var(--glow);
+    color: var(--text);
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    pointer-events: all;
+    animation: toastSlideIn 0.3s ease-out forwards;
+    opacity: 0;
+    transform: translateX(400px);
+}
+
+.toast.removing {
+    animation: toastSlideOut 0.3s ease-in forwards;
+}
+
+.toast-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.toast-content {
+    flex: 1;
+    line-height: 1.4;
+}
+
+.toast.success {
+    border-color: #44ff44;
+}
+
+.toast.error {
+    border-color: #ff4444;
+}
+
+.toast.warning {
+    border-color: #ffaa00;
+}
+
+.toast.info {
+    border-color: var(--accent);
+}
+
+@keyframes toastSlideIn {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes toastSlideOut {
+    to {
+        opacity: 0;
+        transform: translateX(400px);
+    }
+}
+
+@media (max-width: 768px) {
+    .toast-container {
+        top: auto;
+        bottom: 20px;
+        right: 10px;
+        left: 10px;
+    }
+
+    .toast {
+        min-width: auto;
+        width: 100%;
+    }
+}
+
+/* ===== Enhanced Button Animations ===== */
+.theme-btn, .manual-btn, .photo-toggle {
+    position: relative;
+    overflow: hidden;
+}
+
+.theme-btn::before, .manual-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.theme-btn:active::before, .manual-btn:active::before {
+    width: 300px;
+    height: 300px;
+}
+
+/* ===== Photo Slot Improvements ===== */
+.photo-slot {
+    position: relative;
+}
+
+.photo-slot::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 10px;
+    background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.photo-slot:hover::after {
+    opacity: 1;
+}
+
+/* ===== Loading Screen Improvements ===== */
+.loading-screen {
+    transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+}
+
+.loading-screen.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
 </style>
 </head>
 <body>
@@ -1036,6 +1179,9 @@ body, #canvas-container{
 
     <!-- Main 3D Canvas -->
     <div id="canvas-container"></div>
+
+    <!-- Toast Notification Container -->
+    <div class="toast-container" id="toast-container"></div>
 
     <!-- Festive Title -->
     <!-- Floating Back Button -->
@@ -1202,6 +1348,35 @@ body, #canvas-container{
         import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
         import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
         import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+        // ============== Toast Notification System ==============
+        function showToast(message, type = 'info', duration = 3000) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+
+            const icons = {
+                success: '✅',
+                error: '❌',
+                warning: '⚠️',
+                info: 'ℹ️'
+            };
+
+            toast.innerHTML = `
+                <div class="toast-icon">${icons[type] || icons.info}</div>
+                <div class="toast-content">${message}</div>
+            `;
+
+            container.appendChild(toast);
+
+            // Auto-remove after duration
+            setTimeout(() => {
+                toast.classList.add('removing');
+                setTimeout(() => {
+                    container.removeChild(toast);
+                }, 300); // Match animation duration
+            }, duration);
+        }
 
         // ============== Configuration ==============
         const CONFIG = {
@@ -3013,6 +3188,22 @@ body, #canvas-container{
         }
         
         function handlePhotoUpload(file, index) {
+            // Validate file type
+            const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+            if (!validTypes.includes(file.type)) {
+                showToast('请上传有效的图片文件 (JPG, PNG, GIF, WebP)<br>Please upload a valid image file', 'error', 4000);
+                return;
+            }
+
+            // Validate file size (max 10MB)
+            const maxSize = 10 * 1024 * 1024; // 10MB in bytes
+            if (file.size > maxSize) {
+                showToast('文件太大！请上传小于 10MB 的图片<br>File too large! Please upload images under 10MB', 'error', 4000);
+                return;
+            }
+
+            showToast('正在上传照片...<br>Uploading photo...', 'info', 2000);
+
             const reader = new FileReader();
             reader.onload = (e) => {
                 const img = new Image();
@@ -3023,6 +3214,11 @@ body, #canvas-container{
                         <img src="${e.target.result}" alt="Photo ${index + 1}">
                         <button class="remove-btn" onclick="event.stopPropagation(); removePhoto(${index})">×</button>
                     `;
+
+                    // Dispose old texture to prevent memory leak
+                    if (photoTextures[index]) {
+                        photoTextures[index].dispose();
+                    }
 
                     // Create texture for 3D
                     const texture = new THREE.TextureLoader().load(e.target.result);
@@ -3050,9 +3246,13 @@ body, #canvas-container{
                             photoPlane.scale.set(aspect / frameAspect, 1, 1);
                         }
                     }
-                    
+
+
                     // Update done button
                     updatePhotoButtons();
+
+                    // Show success message
+                    showToast('照片上传成功！<br>Photo uploaded successfully!', 'success', 3000);
                 };
                 img.src = e.target.result;
             };
@@ -3062,7 +3262,12 @@ body, #canvas-container{
         window.removePhoto = function(index) {
             const slot = document.querySelector(`.photo-slot[data-index="${index}"]`);
             slot.innerHTML = '<span class="add-icon">+</span>';
-            
+
+            // Dispose texture to free memory
+            if (photoTextures[index]) {
+                photoTextures[index].dispose();
+            }
+
             uploadedPhotos[index] = null;
             photoTextures[index] = null;
 
@@ -3077,9 +3282,13 @@ body, #canvas-container{
                 });
                 photoPlane.scale.set(1, 1, 1);
             }
-            
+
+
             // Update done button
             updatePhotoButtons();
+
+            // Show remove notification
+            showToast('照片已移除<br>Photo removed', 'info', 2000);
         };
 
         // ============== MediaPipe Hand Tracking ==============
@@ -3311,14 +3520,14 @@ body, #canvas-container{
                         
                         // Detect wave: 3+ direction changes
                         if (changes >= 3) {
-                            const themes = ['default', 'warm', 'cool'];
+                            const themes = ['default', 'ice', 'neon'];
                             const currentIdx = themes.indexOf(currentTheme);
                             const nextTheme = themes[(currentIdx + 1) % themes.length];
-                            
+
                             console.log('WAVE! Switching to:', nextTheme);
                             setTheme(nextTheme);
-                            
-                            const themeNames = { default: '经典', warm: '暖色', cool: '冷色' };
+
+                            const themeNames = { default: '经典', ice: '冰雪', neon: '霓虹' };
                             document.getElementById('gesture-display').textContent = '👋 切换到: ' + themeNames[nextTheme];
                             
                             wavePositions = [];
